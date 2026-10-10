@@ -110,7 +110,7 @@ class AutomationEngine {
 
                     let hint = "Pastikan Chrome benar-benar tertutup sebelum dijalankan ulang dengan mode debugging.";
                     if (detail.includes('ECONNREFUSED')) {
-                        hint = "Gagal koneksi ke port 9222. Chrome kemungkinan tidak berjalan dalam mode debugging atau ada instance lain yang menghalangi. Gunakan script ./launch-chrome.sh untuk menjalankan Chrome dengan benar.";
+                        hint = "Gagal koneksi ke port 9222. Chrome kemungkinan belum dibuka dalam mode debugging atau ada window Chrome lain yang masih terbuka di background. Tutup semua Chrome terlebih dahulu lalu klik tombol 'BUKA CHROME DEBUGGING'.";
                     }
 
                     throw new Error(`Fatal: Gagal koneksi ke Chrome (9222). ${hint}\nDetail: ${detail}`);

@@ -30,8 +30,8 @@ interface AutomationState {
 export default function Dashboard() {
   const [csvData, setCsvData] = useState<any[]>([]);
   const [fileName, setFileName] = useState<string>("");
-  const [startRow, setStartRow] = useState<number>(1);
-  const [endRow, setEndRow] = useState<number>(1);
+  const [startRow, setStartRow] = useState<string | number>(1);
+  const [endRow, setEndRow] = useState<string | number>(1);
   const [isLaunching, setIsLaunching] = useState(false);
 
   const [state, setState] = useState<AutomationState>({
@@ -98,6 +98,38 @@ export default function Dashboard() {
     }
   };
 
+  const handleStartRowChange = (val: string) => {
+    const clean = val.replace(/[^0-9]/g, '');
+    setStartRow(clean);
+  };
+
+  const handleStartRowBlur = () => {
+    const num = parseInt(String(startRow), 10);
+    if (!startRow || isNaN(num) || num < 1) {
+      setStartRow(1);
+    } else if (num > csvData.length) {
+      setStartRow(csvData.length);
+    } else {
+      setStartRow(num);
+    }
+  };
+
+  const handleEndRowChange = (val: string) => {
+    const clean = val.replace(/[^0-9]/g, '');
+    setEndRow(clean);
+  };
+
+  const handleEndRowBlur = () => {
+    const num = parseInt(String(endRow), 10);
+    if (!endRow || isNaN(num) || num < 1) {
+      setEndRow(csvData.length > 0 ? csvData.length : 1);
+    } else if (num > csvData.length) {
+      setEndRow(csvData.length);
+    } else {
+      setEndRow(num);
+    }
+  };
+
   const launchChrome = async () => {
     setIsLaunching(true);
     try {
@@ -112,14 +144,16 @@ export default function Dashboard() {
   const startAutomation = async () => {
     if (csvData.length === 0) return;
     try {
+      const parsedStart = Math.max(1, parseInt(String(startRow), 10) || 1);
+      const parsedEnd = Math.min(csvData.length, Math.max(1, parseInt(String(endRow), 10) || csvData.length));
       await fetch('/api/automation/start', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           data: csvData,
           mode: 'attach',
-          startRow: Number(startRow),
-          endRow: Number(endRow)
+          startRow: parsedStart,
+          endRow: parsedEnd
         }),
       });
     } catch (err) {
@@ -136,7 +170,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#132440] text-slate-200 font-sans selection:bg-[#132440]/30">
+    <div className="min-h-screen bg-[#132440] text-slate-200 font-sans selection:bg-amber-500/50 selection:text-white">
       <header className="border-b border-slate-800 bg-white/5 backdrop-blur-md sticky top-0 z-10">
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -174,15 +208,12 @@ export default function Dashboard() {
                 <span className="flex items-center justify-center w-6 h-6 rounded-full bg-[#D1855C] text-[10px] text-white">1</span>
                 Buka Browser Khusus
               </h2>
-              <p className="text-sm text-slate-400 leading-relaxed">
-                Tutup semua window Chrome terlebih dahulu (Command+Q), lalu klik tombol ini untuk membuka Chrome dalam mode debugging.
-              </p>
             </div>
             <button
               onClick={launchChrome}
               disabled={isLaunching || state.isRunning}
               className={cn(
-                "px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-3 transition-all shadow-xl whitespace-nowrap",
+                "px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-3 transition-all shadow-xl whitespace-nowrap cursor-pointer",
                 isLaunching ? "bg-slate-800 text-slate-500" : "bg-[#D1855C] text-white hover:opacity-90 hover:scale-[1.02] active:scale-[0.98]"
               )}
             >
@@ -223,29 +254,49 @@ export default function Dashboard() {
               </label>
 
               {csvData.length > 0 && (
-                <div className="grid grid-cols-2 gap-4 animate-in fade-in slide-in-from-top-2 duration-500">
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest pl-1">Baris Awal</label>
-                    <input
-                      type="number"
-                      min={1}
-                      max={csvData.length}
-                      value={startRow}
-                      onChange={(e) => setStartRow(Math.max(1, parseInt(e.target.value) || 1))}
-                      className="w-full bg-black/30 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-[#D1855C]/50 outline-none transition-colors"
-                    />
+                <div className="space-y-3 animate-in fade-in slide-in-from-top-2 duration-500">
+                  <div className="flex items-center justify-between px-1">
+                    <span className="text-xs font-semibold text-slate-300">Rentang Baris Data</span>
+                    <span className="text-xs text-amber-400 font-medium bg-amber-500/10 border border-amber-500/20 px-2.5 py-0.5 rounded-full flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                      Total: {csvData.length.toLocaleString('id-ID')} baris
+                    </span>
                   </div>
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest pl-1">Baris Akhir</label>
-                    <input
-                      type="number"
-                      min={1}
-                      max={csvData.length}
-                      value={endRow}
-                      onChange={(e) => setEndRow(Math.min(csvData.length, parseInt(e.target.value) || csvData.length))}
-                      className="w-full bg-black/30 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:border-[#D1855C]/50 outline-none transition-colors"
-                    />
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider pl-1 whitespace-nowrap block">
+                        Baris Awal
+                      </label>
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        value={startRow}
+                        onChange={(e) => handleStartRowChange(e.target.value)}
+                        onBlur={handleStartRowBlur}
+                        placeholder="1"
+                        className="w-full bg-black/40 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-slate-100 focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30 outline-none transition-all selection:bg-amber-500 selection:text-white font-mono"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider pl-1 whitespace-nowrap block">
+                        Baris Akhir
+                      </label>
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        value={endRow}
+                        onChange={(e) => handleEndRowChange(e.target.value)}
+                        onBlur={handleEndRowBlur}
+                        placeholder={csvData.length.toString()}
+                        className="w-full bg-black/40 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-slate-100 focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30 outline-none transition-all selection:bg-amber-500 selection:text-white font-mono"
+                      />
+                    </div>
                   </div>
+
+                  <p className="text-[11px] text-slate-400 pl-1">
+                    Akan memproses <span className="text-amber-400 font-semibold">{Math.max(0, (parseInt(String(endRow)) || 0) - (parseInt(String(startRow)) || 1) + 1).toLocaleString('id-ID')}</span> baris
+                  </p>
                 </div>
               )}
             </div>

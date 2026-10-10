@@ -7,17 +7,45 @@ import os from 'os';
 export async function POST(req: NextRequest) {
     try {
         const port = 9222;
-        const profileDir = path.join(os.homedir(), 'Library/Application Support/Google/Chrome/AutomationProfile');
+        const isWindows = process.platform === 'win32';
+        const isMac = process.platform === 'darwin';
+
+        let profileDir = '';
+        if (isWindows) {
+            const localAppData = process.env.LOCALAPPDATA || path.join(os.homedir(), 'AppData', 'Local');
+            profileDir = path.join(localAppData, 'Google', 'Chrome', 'AutomationProfile');
+        } else if (isMac) {
+            profileDir = path.join(os.homedir(), 'Library', 'Application Support', 'Google', 'Chrome', 'AutomationProfile');
+        } else {
+            profileDir = path.join(os.homedir(), '.config', 'google-chrome', 'AutomationProfile');
+        }
 
         let chromePath = '';
-        if (process.platform === 'darwin') {
+        if (isMac) {
             chromePath = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
-        } else if (process.platform === 'win32') {
-            chromePath = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
+        } else if (isWindows) {
+            const candidatePaths = [
+                path.join(process.env['ProgramFiles'] || 'C:\\Program Files', 'Google', 'Chrome', 'Application', 'chrome.exe'),
+                path.join(process.env['ProgramFiles(x86)'] || 'C:\\Program Files (x86)', 'Google', 'Chrome', 'Application', 'chrome.exe'),
+                path.join(process.env.LOCALAPPDATA || path.join(os.homedir(), 'AppData', 'Local'), 'Google', 'Chrome', 'Application', 'chrome.exe'),
+                'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+                'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'
+            ];
+            chromePath = candidatePaths.find(p => fs.existsSync(p)) || candidatePaths[0];
+        } else {
+            const candidatePaths = [
+                '/usr/bin/google-chrome',
+                '/usr/bin/google-chrome-stable',
+                '/usr/bin/chromium-browser',
+                '/usr/bin/chromium'
+            ];
+            chromePath = candidatePaths.find(p => fs.existsSync(p)) || candidatePaths[0];
         }
 
         if (!fs.existsSync(chromePath)) {
-            return NextResponse.json({ error: `Chrome tidak ditemukan di: ${chromePath}` }, { status: 404 });
+            return NextResponse.json({ 
+                error: `Chrome tidak ditemukan di sistem. Pastikan Google Chrome sudah terpasang.` 
+            }, { status: 404 });
         }
 
         if (!fs.existsSync(profileDir)) {
