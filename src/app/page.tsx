@@ -218,7 +218,7 @@ export default function Dashboard() {
               )}
             >
               {isLaunching ? <Loader2 className="w-5 h-5 animate-spin" /> : <Chrome className="w-5 h-5" />}
-              BUKA CHROME DEBUGGING
+              BUKA CHROME
             </button>
           </div>
         </section>

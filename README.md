@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Automation Input Akta Fidusia (DKJ PASTI)
 
-## Getting Started
+Aplikasi otomasi input data Akta Fidusia ke portal Kemenkumham (DKJ PASTI) menggunakan integrasi Google Chrome Remote Debugging & Playwright.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Panduan Penggunaan untuk Staf / Tim
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Aplikasi ini dapat dijalankan dengan mudah di laptop **Windows** maupun **Mac** staf masing-masing.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Syarat Awal (Hanya Sekali di Awal):
+1. Pastikan **Google Chrome** sudah terpasang.
+2. Pastikan **Node.js** (versi 18, 20, atau 22 LTS) sudah terpasang di laptop. Unduh di: [https://nodejs.org](https://nodejs.org)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+### Cara Menjalankan Aplikasi
 
-To learn more about Next.js, take a look at the following resources:
+#### 🪟 Pengguna Windows:
+1. Buka folder aplikasi ini.
+2. Klik ganda (**double-click**) file **`Jalankan_Aplikasi.bat`**.
+3. Sistem akan otomatis menyiapkan komponen saat pertama kali dibuka, menyalakan server, dan langsung membuka browser di `http://localhost:3000`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### 🍎 Pengguna Mac:
+1. Buka folder aplikasi ini.
+2. Klik ganda (**double-click**) file **`Jalankan_Aplikasi.command`**.
+   *(Jika muncul peringatan izin saat pertama kali di Mac, klik kanan file > pilih Open, atau jalankan perintah `chmod +x Jalankan_Aplikasi.command` di Terminal).*
+3. Server akan menyala dan otomatis membuka browser di `http://localhost:3000`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+### 📝 Alur Kerja Otomasi di Dashboard
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Tutup semua jendela Google Chrome** yang sedang terbuka.
+2. Di halaman Dashboard aplikasi, klik tombol **"BUKA CHROME"**.
+3. Jendela Chrome khusus akan terbuka. Silakan:
+   - Login ke portal **DKJ PASTI / AHU Online**.
+   - Selesaikan Captcha / OTP login secara mandiri.
+   - Buka menu laporan input akta fidusia.
+4. Di Dashboard aplikasi:
+   - Unggah (**Upload**) file CSV data fidusia.
+   - Tentukan **Baris Awal** dan **Baris Akhir** yang ingin diproses.
+   - Klik tombol **"MULAI AUTOMATION"**.
+5. Sistem akan mengisi form secara otomatis per baris hingga selesai.
