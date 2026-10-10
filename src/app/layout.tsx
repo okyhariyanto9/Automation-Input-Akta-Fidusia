@@ -16,9 +16,12 @@ export const metadata: Metadata = {
   title: "Automation Akta Fidusia Notaris",
   description: "Aplikasi Otomatisasi Input Akta Fidusia Notaris",
   icons: {
-    icon: "/logo.png",
-    shortcut: "/logo.png",
-    apple: "/logo.png",
+    icon: [
+      { url: "/favicon.ico?v=2" },
+      { url: "/logo.png?v=2", type: "image/png" }
+    ],
+    shortcut: "/favicon.ico?v=2",
+    apple: "/logo.png?v=2",
   },
 };
 
