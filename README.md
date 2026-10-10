@@ -6,7 +6,7 @@ Aplikasi otomasi input data Akta Fidusia ke portal Kemenkumham (DKJ PASTI) mengg
 
 ## 🚀 Panduan Penggunaan untuk Staf / Tim
 
-Aplikasi ini dapat dijalankan dengan mudah di laptop **Windows** maupun **Mac** staf masing-masing.
+Aplikasi ini dapat dijalankan dengan mudah (cukup **1x klik**) di laptop **Windows** maupun **Mac** staf masing-masing.
 
 ### Syarat Awal (Hanya Sekali di Awal):
 1. Pastikan **Google Chrome** sudah terpasang.
@@ -14,31 +14,35 @@ Aplikasi ini dapat dijalankan dengan mudah di laptop **Windows** maupun **Mac** 
 
 ---
 
-### Cara Menjalankan Aplikasi
+### Cara Menjalankan Aplikasi (1x Klik):
+
+> **Tips:** Sebelum menjalankan, pastikan semua jendela Google Chrome biasa sudah ditutup agar mode otomasi dapat langsung aktif.
 
 #### 🪟 Pengguna Windows:
 1. Buka folder aplikasi ini.
 2. Klik ganda (**double-click**) file **`Jalankan_Aplikasi.bat`**.
-3. Sistem akan otomatis menyiapkan komponen saat pertama kali dibuka, menyalakan server, dan langsung membuka browser di `http://localhost:3000`.
+3. Sistem akan otomatis:
+   - Menyiapkan komponen (hanya saat pertama kali dibuka).
+   - Membuka **Google Chrome khusus otomasi** langsung ke portal **DKJ PASTI**.
+   - Menyalakan server dan membuka halaman **Dashboard** di `http://localhost:3000`.
 
 #### 🍎 Pengguna Mac:
 1. Buka folder aplikasi ini.
 2. Klik ganda (**double-click**) file **`Jalankan_Aplikasi.command`**.
    *(Jika muncul peringatan izin saat pertama kali di Mac, klik kanan file > pilih Open, atau jalankan perintah `chmod +x Jalankan_Aplikasi.command` di Terminal).*
-3. Server akan menyala dan otomatis membuka browser di `http://localhost:3000`.
+3. Sistem akan otomatis membuka Google Chrome khusus otomasi dan Dashboard web di `http://localhost:3000`.
 
 ---
 
-### 📝 Alur Kerja Otomasi di Dashboard
+### 📝 Alur Kerja Otomasi
 
-1. **Tutup semua jendela Google Chrome** yang sedang terbuka.
-2. Di halaman Dashboard aplikasi, klik tombol **"BUKA CHROME"**.
-3. Jendela Chrome khusus akan terbuka. Silakan:
+1. Pada **Google Chrome khusus** yang baru saja terbuka otomatis:
    - Login ke portal **DKJ PASTI / AHU Online**.
    - Selesaikan Captcha / OTP login secara mandiri.
-   - Buka menu laporan input akta fidusia.
-4. Di Dashboard aplikasi:
+   - Masuk ke menu laporan input akta fidusia.
+2. Pada **Dashboard Aplikasi** (`http://localhost:3000`):
    - Unggah (**Upload**) file CSV data fidusia.
    - Tentukan **Baris Awal** dan **Baris Akhir** yang ingin diproses.
    - Klik tombol **"MULAI AUTOMATION"**.
-5. Sistem akan mengisi form secara otomatis per baris hingga selesai.
+   - *(Tombol "BUKA CHROME" di Step 1 tetap tersedia sebagai cadangan jika Chrome tidak sengaja tertutup).*
+3. Sistem akan mengisi form secara otomatis per baris hingga selesai.
