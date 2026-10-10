@@ -23,26 +23,26 @@ Aplikasi ini dapat dijalankan dengan mudah (cukup **1x klik**) di laptop **Windo
 2. Klik ganda (**double-click**) file **`Jalankan_Aplikasi.bat`**.
 3. Sistem akan otomatis:
    - Menyiapkan komponen (hanya saat pertama kali dibuka).
-   - Membuka **Google Chrome khusus otomasi** langsung ke portal **DKJ PASTI**.
-   - Menyalakan server dan membuka halaman **Dashboard** di `http://localhost:3000`.
+   - Membuka **1 jendela Google Chrome khusus** dengan 2 tab:
+     * **Tab 1:** Portal DKJ PASTI (`https://dkjpasti.kemenkum.go.id/notaris/laporan`)
+     * **Tab 2:** Dashboard Web (`http://localhost:3000`)
+   - Menyalakan server otomasi di latar belakang.
 
 #### 🍎 Pengguna Mac:
 1. Buka folder aplikasi ini.
 2. Klik ganda (**double-click**) file **`Jalankan_Aplikasi.command`**.
    *(Jika muncul peringatan izin saat pertama kali di Mac, klik kanan file > pilih Open, atau jalankan perintah `chmod +x Jalankan_Aplikasi.command` di Terminal).*
-3. Sistem akan otomatis membuka Google Chrome khusus otomasi dan Dashboard web di `http://localhost:3000`.
+3. Sistem akan otomatis membuka 1 jendela Google Chrome khusus dengan 2 tab (DKJ PASTI & Dashboard `http://localhost:3000`).
 
 ---
 
 ### 📝 Alur Kerja Otomasi
 
-1. Pada **Google Chrome khusus** yang baru saja terbuka otomatis:
-   - Login ke portal **DKJ PASTI / AHU Online**.
-   - Selesaikan Captcha / OTP login secara mandiri.
-   - Masuk ke menu laporan input akta fidusia.
-2. Pada **Dashboard Aplikasi** (`http://localhost:3000`):
-   - Unggah (**Upload**) file CSV data fidusia.
-   - Tentukan **Baris Awal** dan **Baris Akhir** yang ingin diproses.
-   - Klik tombol **"MULAI AUTOMATION"**.
-   - *(Tombol "BUKA CHROME" di Step 1 tetap tersedia sebagai cadangan jika Chrome tidak sengaja tertutup).*
-3. Sistem akan mengisi form secara otomatis per baris hingga selesai.
+1. Pada jendela Google Chrome yang terbuka:
+   - Di **Tab DKJ PASTI**: Login ke portal, selesaikan Captcha / OTP secara mandiri, lalu buka menu laporan input akta fidusia.
+   - Di **Tab Dashboard** (`http://localhost:3000`):
+     - Unggah file CSV data fidusia.
+     - Tentukan **Baris Awal** dan **Baris Akhir** yang ingin diproses.
+     - Klik tombol **"MULAI AUTOMATION"**.
+2. Sistem otomasi akan langsung mendeteksi tab DKJ PASTI dan mengisi formulir secara otomatis baris demi baris hingga selesai!
+   *(Tombol "BUKA CHROME" di Dashboard tetap ada sebagai cadangan jika Chrome tidak sengaja ditutup).*

@@ -35,22 +35,21 @@ PROFILE_DIR="$HOME/Library/Application Support/Google/Chrome/AutomationProfile"
 mkdir -p "$PROFILE_DIR"
 
 if [ -f "$CHROME_BIN" ]; then
-    echo "[INFO] Membuka Google Chrome khusus otomasi dan portal DKJ PASTI..."
-    "$CHROME_BIN" --remote-debugging-port=9222 --user-data-dir="$PROFILE_DIR" --no-first-run --no-default-browser-check "https://dkjpasti.kemenkum.go.id/notaris/laporan" >/dev/null 2>&1 &
+    echo "[INFO] Membuka Google Chrome (Mode Debugging Port 9222)..."
+    echo "  - Tab 1: Portal DKJ PASTI (https://dkjpasti.kemenkum.go.id/notaris/laporan)"
+    echo "  - Tab 2: Dashboard Otomasi (http://localhost:3000)"
+    "$CHROME_BIN" --remote-debugging-port=9222 --user-data-dir="$PROFILE_DIR" --no-first-run --no-default-browser-check "https://dkjpasti.kemenkum.go.id/notaris/laporan" "http://localhost:3000" >/dev/null 2>&1 &
 else
     echo "[PERHATIAN] Google Chrome tidak ditemukan di /Applications."
-    echo "Anda masih bisa membuka Chrome lewat tombol di Dashboard web."
+    echo "Membuka browser default..."
+    (sleep 3 && open http://localhost:3000) &
 fi
 
 echo ""
 echo "[INFO] Memulai server aplikasi..."
-echo "Halaman Dashboard akan terbuka otomatis di browser (http://localhost:3000)"
 echo "Jangan tutup jendela terminal ini selama otomasi sedang berjalan."
 echo "===================================================="
 echo ""
 
-# 4. Buka browser Dashboard setelah delay 3 detik
-(sleep 3 && open http://localhost:3000) &
-
-# 5. Jalankan server Next.js
+# 4. Jalankan server Next.js
 npm run dev

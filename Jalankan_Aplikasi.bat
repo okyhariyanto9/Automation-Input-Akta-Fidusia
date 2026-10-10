@@ -47,23 +47,22 @@ set "PROFILE_DIR=%LOCALAPPDATA%\Google\Chrome\AutomationProfile"
 if not exist "%PROFILE_DIR%" mkdir "%PROFILE_DIR%"
 
 if defined CHROME_BIN (
-    echo [INFO] Membuka Google Chrome khusus otomasi dan portal DKJ PASTI...
-    start "" "%CHROME_BIN%" --remote-debugging-port=9222 --user-data-dir="%PROFILE_DIR%" --no-first-run --no-default-browser-check "https://dkjpasti.kemenkum.go.id/notaris/laporan"
+    echo [INFO] Membuka Google Chrome (Mode Debugging Port 9222)...
+    echo   - Tab 1: Portal DKJ PASTI (https://dkjpasti.kemenkum.go.id/notaris/laporan)
+    echo   - Tab 2: Dashboard Otomasi (http://localhost:3000)
+    start "" "%CHROME_BIN%" --remote-debugging-port=9222 --user-data-dir="%PROFILE_DIR%" --no-first-run --no-default-browser-check "https://dkjpasti.kemenkum.go.id/notaris/laporan" "http://localhost:3000"
 ) else (
     echo [PERHATIAN] Google Chrome tidak ditemukan di lokasi standar.
-    echo Anda masih bisa membuka Chrome lewat tombol di Dashboard web.
+    echo Membuka browser default...
+    start "" cmd /c "timeout /t 3 /nobreak >nul & start http://localhost:3000"
 )
 
 echo.
 echo [INFO] Memulai server aplikasi...
-echo Halaman Dashboard akan terbuka otomatis di browser (http://localhost:3000)
 echo Jangan tutup jendela ini selama otomasi sedang berjalan.
 echo ====================================================
 echo.
 
-:: 4. Buka browser Dashboard setelah delay 3 detik
-start "" cmd /c "timeout /t 3 /nobreak >nul & start http://localhost:3000"
-
-:: 5. Jalankan server Next.js
+:: 4. Jalankan server Next.js
 call npm run dev
 pause
