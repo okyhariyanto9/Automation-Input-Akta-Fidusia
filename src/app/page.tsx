@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Cat, Square, Upload, Terminal, CheckCircle, AlertCircle, Loader2, FileText, ChevronRight, Settings, Info, Chrome } from 'lucide-react';
+import { Play, Square, Upload, Terminal, CheckCircle, AlertCircle, Loader2, FileText, ChevronRight, Settings, Info, Chrome } from 'lucide-react';
 import Papa from 'papaparse';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -140,8 +140,8 @@ export default function Dashboard() {
       <header className="border-b border-slate-800 bg-white/5 backdrop-blur-md sticky top-0 z-10">
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-[#D1855C] rounded-lg shadow-lg">
-              <Cat className="w-6 h-6 text-white fill-white" />
+            <div className="relative w-10 h-10 rounded-full shadow-lg overflow-hidden border border-amber-500/40 flex items-center justify-center bg-[#0e223e] ring-2 ring-amber-500/20">
+              <img src="/logo.png" alt="Logo Notaris" className="w-full h-full object-contain" />
             </div>
             <div>
               <h1 className="text-xl font-bold bg-clip-text text-transparent bg-linear-to-r from-white to-slate-400">
@@ -261,7 +261,7 @@ export default function Dashboard() {
                     : "bg-[#D1855C] text-white hover:opacity-90 shadow-[#D1855C]/20"
                 )}
               >
-                {state.isRunning ? <Loader2 className="w-5 h-5 animate-spin" /> : <Cat className="w-5 h-5 fill-current" />}
+                {state.isRunning ? <Loader2 className="w-5 h-5 animate-spin" /> : <Play className="w-5 h-5 fill-current" />}
                 MULAI AUTOMATION
               </button>
               <button
